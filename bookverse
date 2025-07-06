@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookVerse - Interactive Ebook Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .book-cover {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .book-cover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        .reading-pane {
+            background-color: #f8f3e8;
+            color: #3a3226;
+        }
+        .dark-mode .reading-pane {
+            background-color: #2a2118;
+            color: #e0d6c2;
+        }
+        .publishing-form input, .publishing-form textarea {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid #4b5563;
+        }
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0a7e76fe-a196-457b-8563-f4997e9826b3.png" alt="BookVerse logo with an open book icon and modern typography" class="h-10">
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="#" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
+                        <a href="#discover" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Discover</a>
+                        <a href="#publish" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Publish</a>
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <div class="ml-3 relative">
+                        <button class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                            <img class="h-8 w-8 rounded-full" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6b8c4cea-339d-4faf-bdb7-25b9a01780f8.png" alt="User profile picture showing a smiling person with professional headshot styling">
+                        </button>
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-indigo-900 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="relative z-10 pb-8 bg-indigo-900 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+                <div class="pt-10 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+                    <div class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+                        <div class="sm:text-center lg:text-left">
+                            <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
+                                <span class="block">Read, Share,</span>
+                                <span class="block text-indigo-300">and Publish</span>
+                            </h1>
+                            <p class="mt-3 text-base text-indigo-200 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                The next generation platform for ebook enthusiasts and creators. Enjoy premium features for free.
+                            </p>
+                            <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                                <div class="rounded-md shadow">
+                                    <a href="#discover" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10">
+                                        Explore Books
+                                    </a>
+                                </div>
+                                <div class="mt-3 sm:mt-0 sm:ml-3">
+                                    <a href="#publish" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                                        Publish Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2ea9efcf-9251-43a9-8903-9c2ad45c22c7.png" alt="Modern digital library interface showcasing popular ebooks on tablets and phones with a clean design">
+        </div>
+    </div>
+
+    <!-- Featured Books Section -->
+    <section id="discover" class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Featured Books</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Discover Your Next Favorite Read
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">Trending This Week</h3>
+                    <div class="flex space-x-2">
+                        <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-8">
+                    <!-- Book 1 -->
+                    <div class="group" onclick="openBookPreview(1)">
+                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden book-cover">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/38217c42-afd5-49f9-a723-65a8c7c2ddc3.png" alt="Book cover for 'The Future We Choose' showing a futuristic cityscape with green technology elements" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700 font-medium">The Future We Choose</h3>
+                        <p class="mt-1 text-lg font-medium text-gray-900">Christiana Figueres</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-500">(1,204)</span>
+                        </div>
+                    </div>
+
+                    <!-- Book 2 -->
+                    <div class="group" onclick="openBookPreview(2)">
+                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden book-cover">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/300a12ff-13cb-43bb-b09c-8156d2f800c6.png" alt="Book cover for 'Quantum Dawn' featuring abstract quantum physics visualization with vibrant colors" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700 font-medium">Quantum Dawn</h3>
+                        <p class="mt-1 text-lg font-medium text-gray-900">Alex Mercer</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-500">(892)</span>
+                        </div>
+                    </div>
+
+                    <!-- Book 3 -->
+                    <div class="group" onclick="openBookPreview(3)">
+                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden book-cover">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9a34e525-4b9d-4a6d-a261-4b7101be98c1.png" alt="Book cover for 'Silent Shore' showing a mysterious beach at twilight with dramatic lighting" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700 font-medium">Silent Shore</h3>
+                        <p class="mt-1 text-lg font-medium text-gray-900">Elena Rodriguez</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="far fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-500">(756)</span>
+                        </div>
+                    </div>
+
+                    <!-- Book 4 -->
+                    <div class="group" onclick="openBookPreview(4)">
+                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden book-cover">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4345bb67-2541-46e6-8c04-a7306ac7a317.png" alt="Book cover for 'The Art of Digital' featuring abstract digital art with geometric patterns" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700 font-medium">The Art of Digital</h3>
+                        <p class="mt-1 text-lg font-medium text-gray-900">David Kim</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-500">(1,532)</span>
+                        </div>
+                    </div>
+
+                    <!-- Book 5 -->
+                    <div class="group" onclick="openBookPreview(5)">
+                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden book-cover">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a421de62-3ef0-4a28-8af7-cad96f58c0db.png" alt="Book cover for 'Beyond the Horizon' showing a stunning space scene with distant galaxies" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700 font-medium">Beyond the Horizon</h3>
+                        <p class="mt-1 text-lg font-medium text-gray-900">Sarah Johnson</p>
+                        <div class="mt-2 flex items-center">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="far fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="ml-2 text-sm text-gray-500">(643)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reading Pane (Hidden by default) -->
+    <div id="reading-pane" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg w-full max-w-4xl h-[80vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 id="reading-title" class="text-xl font-semibold">The Future We Choose</h3>
+                <button onclick="closeBookPreview()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="reading-pane flex-1 overflow-y-auto p-6">
+                <div id="book-content" class="max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold mb-4">Chapter 1: Our Choice</h2>
+                    <p class="mb-4">The future is not something that happens to us passively; it is something we create actively every day with every decision we make.</p>
+                    <p class="mb-4">We stand at a crossroads: one path leads to continued warming, with all the risks to health, livelihoods, and national security that entails. The other leads to a transformed world with clean air, green cities, and healthy people.</p>
+                    <p class="mb-4">This book is about how we get to that second future—the better one.</p>
+                    
+                    <h2 class="text-2xl font-bold mb-4 mt-8">Chapter 2: The World We Are Creating</h2>
+                    <p class="mb-4">By 2050, the world population will approach ten billion. The challenge of meeting everyone's basic needs will be enormous, and we will fail unless we change course dramatically. The good news is: we know what needs to be done.</p>
+                    <p class="mb-4">The technologies exist today. What we lack is political will and coordination between governments, businesses, and civil society.</p>
+                    <p class="mb-4">This chapter explores the key challenges—and opportunities—of our rapidly urbanizing world.</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center p-4 border-t bg-white">
+                <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300" onclick="prevPage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div>
+                    <span id="current-page">1</span> / <span id="total-pages">12</span>
+                </div>
+                <button class="p-2 rounded-full bg-gray-200 hover:bg-gray-300" onclick="nextPage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="p-4 border-t flex justify-between">
+                <button class="flex items-center text-gray-600 hover:text-indigo-600" onclick="toggleDarkMode()">
+                    <i class="fas fa-moon mr-2"></i>
+                    <span>Dark Mode</span>
+                </button>
+                <button class="flex items-center text-gray-600 hover:text-indigo-600" onclick="changeFont('serif')">
+                    <i class="fas fa-font mr-2"></i>
+                    <span>Serif Font</span>
+                </button>
+                <button class="flex items-center text-gray-600 hover:text-indigo-600" onclick="changeFont('sans-serif')">
+                    <i class="fas fa-font mr-2"></i>
+                    <span>Sans-Serif</span>
+                </button>
+                <button class="flex items-center text-gray-600 hover:text-indigo-600" onclick="highlightSelection()">
+                    <i class="fas fa-highlighter mr-2"></i>
+                    <span>Highlight</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publishing Section -->
+    <section id="publish" class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Author Services</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Publish Your Book for Free
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                    Reach millions of readers worldwide with our free publishing platform.
+                </p>
+            </div>
+
+            <div class="mt-10 max-w-3xl mx-auto">
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div class="px-4 py-5 sm:px-6 bg-gray-50">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                            Book Publishing Form
+                        </h3>
+                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                            Fill in the details about your book. Our team will review your submission within 24 hours.
+                        </p>
+                    </div>
+                    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+                        <form id="publishing-form" class="publishing-form p-4 sm:p-6">
+                            <div class="grid grid-cols-6 gap-6">
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="title" class="block text-sm font-medium text-gray-700">Book Title</label>
+                                    <input type="text" name="title" id="title" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2">
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="author" class="block text-sm font-medium text-gray-700">Author Name</label>
+                                    <input type="text" name="author" id="author" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md p-2">
+                                </div>
+
+                                <div class="col-span-6">
+                                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                                    <textarea id="description" name="description" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md p-2"></textarea>
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
+                                    <select id="genre" name="genre" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option>Fiction</option>
+                                        <option>Non-fiction</option>
+                                        <option>Science Fiction</option>
+                                        <option>Fantasy</option>
+                                        <option>Mystery</option>
+                                        <option>Romance</option>
+                                        <option>Biography</option>
+                                        <option>Self-Help</option>
+                                        <option>Business</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label for="language" class="block text-sm font-medium text-gray-700">Language</label>
+                                    <select id="language" name="language" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                        <option>German</option>
+                                        <option>Chinese</option>
+                                        <option>Japanese</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-span-6">
+                                    <label for="cover" class="block text-sm font-medium text-gray-700">Cover Image</label>
+                                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                        <div class="space-y-1 text-center">
+                                            <div class="flex text-sm text-gray-600">
+                                                <label for="cover-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                    <span>Upload a file</span>
+                                                    <input id="cover-upload" name="cover-upload" type="file" class="sr-only">
+                                                </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs text-gray-500">
+                                                PNG, JPG, GIF up to 10MB
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-6">
+                                    <label for="manuscript" class="block text-sm font-medium text-gray-700">Manuscript</label>
+                                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                                        <div class="space-y-1 text-center">
+                                            <div class="flex text-sm text-gray-600">
+                                                <label for="manuscript-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                                    <span>Upload a file</span>
+                                                    <input id="manuscript-upload" name="manuscript-upload" type="file" class="sr-only">
+                                                </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs text-gray-500">
+                                                PDF, EPUB, or DOCX up to 100MB
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-6 sm:col-span-3">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="terms" name="terms" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="terms" class="font-medium text-gray-700">I agree to the</label>
+                                            <p class="text-gray-500">Terms & Conditions and Privacy Policy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Submit for Review
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Why Choose Us</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    A Better Reading Experience
+                </p>
+            </div>
+
+            <div class="mt-10">
+                <div class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Advanced Reading Tools</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Highlight text, take notes, adjust fonts and layouts - all designed to create the perfect reading experience for you.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Powerful Analytics</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Authors get detailed insights about their readers - where they're from, how they engage with your book, and more.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Global Distribution</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Your book will be available to millions of readers worldwide across all devices and platforms.
+                        </p>
+                    </div>
+
+                    <div class="relative">
+                        <div class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <p class="ml-16 text-lg leading-6 font-medium text-gray-900">Social Sharing</p>
+                        <p class="mt-2 ml-16 text-base text-gray-500">
+                            Readers can share their favorite quotes and passages directly to social media with beautiful formatted cards.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        About
+                    </a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        Blog
+                    </a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        Jobs
+                    </a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        Press
+                    </a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        Accessibility
+                    </a>
+                </div>
+                <div class="px-5 py-2">
+                    <a href="#" class="text-base text-gray-300 hover:text-white">
+                        Partners
+                    </a>
+                </div>
+            </nav>
+            <div class="mt-8 flex justify-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Facebook</span>
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Twitter</span>
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">Instagram</span>
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white">
+                    <span class="sr-only">LinkedIn</span>
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-center text-base text-gray-400">
+                © 2023 BookVerse. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Book Preview Functionality
+        function openBookPreview(bookId) {
+            document.getElementById('reading-pane').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // In a real app, we'd fetch book content based on bookId
+            // For demo, we'll just show the sample content
+            
+            // Update title based on book
+            const titles = [
+                "", // 0 index unused
+                "The Future We Choose",
+                "Quantum Dawn",
+                "Silent Shore",
+                "The Art of Digital",
+                "Beyond the Horizon"
+            ];
+            
+            const authors = [
+                "", // 0 index unused
+                "Christiana Figueres",
+                "Alex Mercer",
+                "Elena Rodriguez",
+                "David Kim",
+                "Sarah Johnson"
+            ];
+            
+            document.getElementById('reading-title').textContent = `${titles[bookId]} by ${authors[bookId]}`;
+        }
+        
+        function closeBookPreview() {
+            document.getElementById('reading-pane').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Reading Tools
+        function toggleDarkMode() {
+            document.querySelector('.reading-pane').classList.toggle('dark-mode');
+        }
+        
+        function changeFont(fontType) {
+            const content = document.getElementById('book-content');
+            if (fontType === 'serif') {
+                content.style.fontFamily = '"Times New Roman", serif';
+            } else {
+                content.style.fontFamily = 'sans-serif';
+            }
+        }
+        
+        function highlightSelection() {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+                const range = selection.getRangeAt(0);
+                const selectedText = range.extractContents();
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.appendChild(selectedText);
+                range.insertNode(span);
+            }
+        }
+        
+        function nextPage() {
+            // In a real app, this would load the next page of content
+            const currentEl = document.getElementById('current-page');
+            const totalEl = document.getElementById('total-pages');
+            const current = parseInt(currentEl.textContent);
+            const total = parseInt(totalEl.textContent);
+            
+            if (current < total) {
+                currentEl.textContent = current + 1;
+            }
+        }
+        
+        function prevPage() {
+            // In a real app, this would load the previous page of content
+            const currentEl = document.getElementById('current-page');
+            const current = parseInt(currentEl.textContent);
+            
+            if (current > 1) {
+                currentEl.textContent = current - 1;
+            }
+        }
+        
+        // Publishing Form Handling
+        document.getElementById('publishing-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real app, this would send the data to the server
+            const title = document.getElementById('title').value;
+            
+            alert(`Thank you for submitting "${title}" for review! Our team will contact you within 24 hours.`);
+            this.reset();
+        });
+        
+        // Mobile Menu Toggle (would need additional HTML/CSS)
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            // You would toggle a mobile menu here
+            console.log('Mobile menu toggled');
+        });
+    </script>
+</body>
+</html>
+
+```
